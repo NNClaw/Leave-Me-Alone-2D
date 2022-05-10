@@ -170,7 +170,7 @@ MonoBehaviour:
   minimumDistance: 0.45
   maximumTime: 1
   directionThreshold: 0.9
-  trail: {fileID: 931210302}
+  swipeTrail: {fileID: 931210302}
 --- !u!114 &504333421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPosition: {fileID: 1263816982}
-  yOffset: 4.1
+  cameraOffset: {x: 0, y: 0, z: 0}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -393,7 +393,7 @@ TrailRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
-  m_MotionVectors: 0
+  m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
@@ -419,9 +419,9 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 710146543
+  m_SortingLayer: 1
+  m_SortingOrder: 0
   m_Time: 0.2
   m_Parameters:
     serializedVersion: 3
@@ -431,7 +431,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.32222325
+        value: 0.33055454
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -476,7 +476,7 @@ TrailRenderer:
       atime5: 0
       atime6: 0
       atime7: 0
-      m_Mode: 0
+      m_Mode: 1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 3
@@ -574,18 +574,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1786239483207085882, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 50fd51d2fd060b749a9518196c434d7a, type: 2}
-    - target: {fileID: 1786239483207085882, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1786239483207085883, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 7a92f729535a6e94bb98796ba93bd486, type: 2}
     - target: {fileID: 1786239483207085884, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -596,7 +584,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1786239483207085884, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 1786239483207085884, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -630,18 +618,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1786239483207085885, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
-      propertyPath: m_AirControl
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1786239483207085885, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
-      propertyPath: OnLandEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1263816979}
-    - target: {fileID: 1786239483207085885, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
-      propertyPath: OnLandEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnLanding
-      objectReference: {fileID: 0}
     - target: {fileID: 1786239483207085886, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
       propertyPath: m_Name
       value: Player (Rigidbody 2D)
@@ -655,10 +631,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1261282479633717239, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 4415732712015466264, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -706,14 +678,6 @@ PrefabInstance:
     - target: {fileID: 4415732712015466265, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}
       propertyPath: m_Name
       value: Level Part_Start
-      objectReference: {fileID: 0}
-    - target: {fileID: 4415732712015466265, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7759944261697937744, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}
-      propertyPath: m_Layer
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}

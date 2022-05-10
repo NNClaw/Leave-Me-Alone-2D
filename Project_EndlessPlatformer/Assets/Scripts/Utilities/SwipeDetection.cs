@@ -8,7 +8,7 @@ public class SwipeDetection : Singleton<SwipeDetection>
     [SerializeField] float minimumDistance = .2f;
     [SerializeField] float maximumTime = 1f;
     [SerializeField, Range(0f, 1f)] float directionThreshold = .9f;
-    [SerializeField] GameObject trail;
+    [SerializeField] GameObject swipeTrail;
 
     private InputManager inputManager;
 
@@ -46,8 +46,8 @@ public class SwipeDetection : Singleton<SwipeDetection>
     {
         startPosition = position;
         startTime = time;
-        trail.SetActive(true);
-        trail.transform.position = position;
+        swipeTrail.SetActive(true);
+        swipeTrail.transform.position = position;
         swipeCoroutine = StartCoroutine(Trail());
     }
 
@@ -55,14 +55,14 @@ public class SwipeDetection : Singleton<SwipeDetection>
     {
         while (true)
         {
-            trail.transform.position = inputManager.PrimaryPosition();
+            swipeTrail.transform.position = inputManager.PrimaryPosition();
             yield return null;
         }
     }
 
     private void SwipeEnd(Vector2 position, float time)
     {
-        trail.SetActive(false);
+        swipeTrail.SetActive(false);
         StopCoroutine(swipeCoroutine);
         endPosition = position;
         endTime = time;
@@ -88,19 +88,19 @@ public class SwipeDetection : Singleton<SwipeDetection>
         }
         if (Vector2.Dot(Vector2.down, direction) > directionThreshold)
         {
-            StartCoroutine(CrouchDelay());
+            StartCoroutine(SwipeDownActivationFreeze());
         }
         if (Vector2.Dot(Vector2.left, direction) > directionThreshold)
         {
-
+            // do smthng when swiped left
         }
         if (Vector2.Dot(Vector2.right, direction) > directionThreshold)
         {
-
+            // do smthng when swiped right
         }
     }
 
-    private IEnumerator CrouchDelay()
+    private IEnumerator SwipeDownActivationFreeze()
     {
         DirectionDown?.Invoke(true);
         yield return new WaitForSeconds(1f);

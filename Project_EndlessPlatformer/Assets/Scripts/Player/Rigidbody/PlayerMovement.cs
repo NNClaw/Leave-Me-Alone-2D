@@ -56,8 +56,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnLanding()
     {
-        playerAnimator.SetBool("IsJumping", _isJumping);
         _isJumping = false;
+        playerAnimator.SetBool("IsJumping", _isJumping);
+        
     }
 
     private void OnCrouch(bool isCrouching)
