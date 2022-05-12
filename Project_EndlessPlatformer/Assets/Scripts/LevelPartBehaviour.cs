@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class LevelPartBehaviour : MonoBehaviour
 {
-    BoxCollider2D obstacleCollider;
+    [SerializeField] BoxCollider2D obstacleCollider;
 
     private void Awake()
     {
-        obstacleCollider = GetComponent<BoxCollider2D>();
+        
     }
 
 #if !UNITY_EDITOR
