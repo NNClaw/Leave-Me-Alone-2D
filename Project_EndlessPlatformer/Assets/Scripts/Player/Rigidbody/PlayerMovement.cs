@@ -3,62 +3,62 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private CharacterController2D controller;
     [SerializeField] private float movementSpeed = 100f;
-    Animator playerAnimator;
 
-    private InputManager inputManager;
-    private SwipeDetection swipeDetection;
+    private PlayerMainManager _playerMain;
+    private SwipeDetection _swipeDetection;
 
     private bool _isJumping;
     private bool _isCrouching;
 
-    private void Awake()
+    private void Start()
     {
-        inputManager = InputManager.Instance;
-        swipeDetection = SwipeDetection.Instance;
-        playerAnimator = GetComponentInChildren<Animator>();
+        _playerMain = GetComponent<PlayerMainManager>();
+        _swipeDetection = SwipeDetection.Instance;
+        
+        _playerMain._inputManager.OnJump += OnJump;
+        _playerMain._inputManager.OnCrouch += OnCrouch;
+        _swipeDetection.DirectionUp += OnJump;
+        _swipeDetection.DirectionDown += OnCrouch;
+        Debug.Log("PlayerMovement - ON!");
     }
 
     private void OnEnable()
     {
-        inputManager.OnJump += OnJump;
-        inputManager.OnCrouch += OnCrouch;
-        swipeDetection.DirectionUp += OnJump;
-        swipeDetection.DirectionDown += OnCrouch;
+        // the event subscribtions should be here, but it won't work if I put them here
     }
 
     private void OnDisable()
     {
-        inputManager.OnJump -= OnJump;
-        inputManager.OnCrouch -= OnCrouch;
-        swipeDetection.DirectionUp -= OnJump;
-        swipeDetection.DirectionDown -= OnCrouch;
+        _playerMain._inputManager.OnJump -= OnJump;
+        _playerMain._inputManager.OnCrouch -= OnCrouch;
+        
+        _swipeDetection.DirectionUp -= OnJump;
+        _swipeDetection.DirectionDown -= OnCrouch;
     }
 
     private void FixedUpdate()
     {
-        Move();
+        MovePlayer();
     }
 
-    private void Move()
+    private void MovePlayer()
     {
-        playerAnimator.SetFloat("Velocity", movementSpeed);
-        playerAnimator.SetBool("IsRunning", true);
-        controller.Move(Time.fixedDeltaTime * movementSpeed, _isCrouching, _isJumping);
+        _playerMain._playerAnimation._playerAnimator.SetFloat("Velocity", movementSpeed);
+        _playerMain._playerAnimation._playerAnimator.SetBool("IsRunning", true);
+        _playerMain._controller.Move(Time.fixedDeltaTime * movementSpeed, _isCrouching, _isJumping);
     }
 
     private void OnJump()
     {
         _isJumping = true;
-        playerAnimator.SetBool("IsJumping", _isJumping);
+        _playerMain._playerAnimation._playerAnimator.SetBool("IsJumping", _isJumping);
     }
 
     public void OnLanding()
     {
         _isJumping = false;
-        playerAnimator.SetBool("IsJumping", _isJumping);
-        
+        _playerMain._playerAnimation._playerAnimator.SetBool("IsJumping", _isJumping);
     }
 
     private void OnCrouch(bool isCrouching)

@@ -8,7 +8,7 @@ public class LevelGenerator : MonoBehaviour
 
     [SerializeField] private List<Transform> levelParts;
     [SerializeField] private Transform levelPart_Start;
-    [SerializeField] private PlayerMovement player;
+    [SerializeField] private PlayerMainManager player;
 
     private Vector3 lastEndPosition;
 

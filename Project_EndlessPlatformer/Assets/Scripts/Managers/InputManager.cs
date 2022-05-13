@@ -3,11 +3,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[DefaultExecutionOrder(-1)]
+/// <summary>
+/// Be aware, that this class has an execution order. -50
+/// </summary>
 public class InputManager : Singleton<InputManager>
 {
-    private PlayerControls playerControls;
-    private Camera mainCam;
+    private PlayerControls _playerControls;
+    private Camera _mainCam;
 
     #region Events
 
@@ -27,27 +29,27 @@ public class InputManager : Singleton<InputManager>
 
     private void Awake()
     {
-        playerControls = new PlayerControls();
-        mainCam = Camera.main;
+        _playerControls = new PlayerControls();
+        _mainCam = Camera.main;
     }
 
     private void OnEnable()
     {
-        playerControls.Enable();
+        _playerControls.Enable();
     }
 
     private void OnDisable()
     {
-        playerControls.Disable();
+        _playerControls.Disable();
     }
 
     private void Start()
     {
-        playerControls.Player.PrimaryContact.started += StartTouchPrimary;
-        playerControls.Player.PrimaryContact.canceled += EndTouchPrimary;
-        playerControls.Player.Jump.performed += Jump;
-        playerControls.Player.Crouch.performed += Crouch;
-        playerControls.Player.Crouch.canceled += Crouch;
+        _playerControls.Player.PrimaryContact.started += StartTouchPrimary;
+        _playerControls.Player.PrimaryContact.canceled += EndTouchPrimary;
+        _playerControls.Player.Jump.performed += Jump;
+        _playerControls.Player.Crouch.performed += Crouch;
+        _playerControls.Player.Crouch.canceled += Crouch;
     }
 
     private void Crouch(InputAction.CallbackContext context)
@@ -79,22 +81,22 @@ public class InputManager : Singleton<InputManager>
     {
         yield return new WaitForEndOfFrame();
 
-        var position = playerControls.Player.PrimaryPosition.ReadValue<Vector2>();
+        var position = _playerControls.Player.PrimaryPosition.ReadValue<Vector2>();
         if(position.x == 0 && position.y == 0)
         {
             yield return null;
         }
 
-        OnStartTouch?.Invoke(Utils.ScreenToWorldPoint(playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), mainCam), (float)context.startTime);
+        OnStartTouch?.Invoke(Utils.ScreenToWorldPoint(_playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), _mainCam), (float)context.startTime);
     }
 
     private void EndTouchPrimary(InputAction.CallbackContext context)
     {
-        OnEndTouch?.Invoke(Utils.ScreenToWorldPoint(playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), mainCam), (float)context.time);
+        OnEndTouch?.Invoke(Utils.ScreenToWorldPoint(_playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), _mainCam), (float)context.time);
     }
 
     public Vector2 PrimaryPosition()
     {
-        return Utils.ScreenToWorldPoint(playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), mainCam);
+        return Utils.ScreenToWorldPoint(_playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), _mainCam);
     }
 }
