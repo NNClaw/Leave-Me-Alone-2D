@@ -33,8 +33,6 @@ public class CharacterController2D : MonoBehaviour
 
 	private void Awake()
 	{
-		_playerMainManager = GetComponent<PlayerMainManager>();
-
 		// m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
@@ -42,10 +40,15 @@ public class CharacterController2D : MonoBehaviour
 
 		if (OnCrouchEvent == null)
 			OnCrouchEvent = new BoolEvent();
+	}
+
+    private void OnEnable()
+    {
+		_playerMainManager = GetComponent<PlayerMainManager>();
 		Debug.Log("CharacterController2D - ON!");
 	}
 
-	private void FixedUpdate()
+    private void FixedUpdate()
 	{
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -7,25 +6,27 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerMainManager _playerMain;
     private SwipeDetection _swipeDetection;
+    private PlayerAnimationHandler _playerMainAnimation;
 
     private bool _isJumping;
     private bool _isCrouching;
 
-    private void Start()
+    private void OnEnable()
     {
+        // Components cache and other declarations
         _playerMain = GetComponent<PlayerMainManager>();
         _swipeDetection = SwipeDetection.Instance;
-        
+
+        // Input subscribtions
         _playerMain._inputManager.OnJump += OnJump;
         _playerMain._inputManager.OnCrouch += OnCrouch;
         _swipeDetection.DirectionUp += OnJump;
         _swipeDetection.DirectionDown += OnCrouch;
-        Debug.Log("PlayerMovement - ON!");
-    }
 
-    private void OnEnable()
-    {
-        // the event subscribtions should be here, but it won't work if I put them here
+        // Animation variable setup
+        _playerMainAnimation = _playerMain._playerAnimation;
+
+        Debug.Log("PlayerMovement - ON!");
     }
 
     private void OnDisable()
@@ -44,25 +45,36 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        _playerMain._playerAnimation._playerAnimator.SetFloat("Velocity", movementSpeed);
-        _playerMain._playerAnimation._playerAnimator.SetBool("IsRunning", true);
+        // Setting up animations
+        _playerMainAnimation.SetAnimationFloat(_playerMainAnimation._runningVelocityHash, movementSpeed);
+        _playerMainAnimation.SetAnimationBool(_playerMainAnimation._isRunningHash, true);
+
+        // Executing player movement
         _playerMain._controller.Move(Time.fixedDeltaTime * movementSpeed, _isCrouching, _isJumping);
     }
 
     private void OnJump()
     {
+        // Manipulating jumping boolean to start the jump
         _isJumping = true;
-        _playerMain._playerAnimation._playerAnimator.SetBool("IsJumping", _isJumping);
+
+        // Setting up an animation for jump
+        _playerMainAnimation.SetAnimationBool(_playerMainAnimation._isJumpingHash, _isJumping);
     }
 
     public void OnLanding()
     {
+        // Setting up an animation for falling
+        _playerMainAnimation.SetAnimationBool(_playerMainAnimation._isJumpingHash, _isJumping);
+
+        // Manipulating jumping boolean to start the jump
         _isJumping = false;
-        _playerMain._playerAnimation._playerAnimator.SetBool("IsJumping", _isJumping);
     }
 
     private void OnCrouch(bool isCrouching)
     {
+        // TODO: animation implementation for crouching
+
         _isCrouching = isCrouching;
     }
 }
