@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Be aware, that this class has an execution order. -50
 /// </summary>
-public class InputManager : Singleton<InputManager>
+public class PlayerInputManager : Singleton<PlayerInputManager>, IInputManager
 {
     private PlayerControls _playerControls;
     private Camera _mainCam;
@@ -99,4 +99,9 @@ public class InputManager : Singleton<InputManager>
     {
         return Utils.ScreenToWorldPoint(_playerControls.Player.PrimaryPosition.ReadValue<Vector2>(), _mainCam);
     }
+}
+
+public interface IInputManager
+{
+
 }

@@ -1,18 +1,16 @@
 using UnityEngine;
 
-public class PlayerAnimationHandler : MonoBehaviour
+public class PlayerAnimationHandler : MonoBehaviour, IAnimationHandler
 {
-    private PlayerMainManager _playerMain;
-    internal Animator _playerAnimator;
+    private ICharacterManager _playerMain;
 
-    internal int _isJumpingHash;
-    internal int _isRunningHash;
-    internal int _runningVelocityHash;
+    private int _isJumpingHash;
+    private int _isRunningHash;
+    private int _runningVelocityHash;
 
     private void OnEnable()
     {
-        _playerMain = GetComponent<PlayerMainManager>();
-        _playerAnimator = GetComponentInChildren<Animator>();
+        _playerMain = GetComponent<ICharacterManager>();
 
         _runningVelocityHash = Animator.StringToHash("Velocity");
         _isJumpingHash = Animator.StringToHash("IsJumping");
@@ -20,13 +18,37 @@ public class PlayerAnimationHandler : MonoBehaviour
         Debug.Log("PlayerAnimationHandler - ON!");
     }
 
-    internal void SetAnimationBool(int hashID, bool animationCondition)
+    public void SetAnimationFloat(int hashID, float animationFloat)
     {
-        _playerAnimator.SetBool(hashID, animationCondition);
+        _playerMain.GetAnimator().SetFloat(hashID, animationFloat);
     }
 
-    internal void SetAnimationFloat(int hashID, float animationFloat)
+    public void SetAnimationBool(int hashID, bool animationCondition)
     {
-        _playerAnimator.SetFloat(hashID, animationFloat);
+        _playerMain.GetAnimator().SetBool(hashID, animationCondition);
     }
+
+    public int GetJumpingHash()
+    {
+        return _isJumpingHash;
+    }
+
+    public int GetRunningHash()
+    {
+        return _isRunningHash;
+    }
+
+    public int GetRunningVelocityHash()
+    {
+        return _runningVelocityHash;
+    }
+}
+
+public interface IAnimationHandler
+{
+    public int GetJumpingHash();
+    public int GetRunningHash();
+    public int GetRunningVelocityHash();
+    public void SetAnimationBool(int hashID, bool animationCondition);
+    public void SetAnimationFloat(int hashID, float animationFloat);
 }

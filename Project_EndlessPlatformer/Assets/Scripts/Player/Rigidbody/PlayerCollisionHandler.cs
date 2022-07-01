@@ -1,19 +1,18 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerCollisionHandler : MonoBehaviour
+public class PlayerCollisionHandler : MonoBehaviour, ICollisionHandler
 {
     [SerializeField] float immortalityTime = 2f;
+    [SerializeField] float flickeringSpriteFrequency = .1f;
 
-    private PlayerMainManager _playerMain;
-    private SpriteRenderer _playerSprite;
+    private ICharacterManager _playerMain;
     private bool _isImmortal = false;
     private float _immortalTimer;
 
     private void Start()
     {
-        _playerMain = GetComponent<PlayerMainManager>();
-        _playerSprite = GetComponentInChildren<SpriteRenderer>();
+        _playerMain = GetComponent<ICharacterManager>();
 
         _immortalTimer = immortalityTime;
 
@@ -39,22 +38,37 @@ public class PlayerCollisionHandler : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Obstacle"))
-            _isImmortal = true;
-            StartCoroutine(ProcessImmortality());
-            Debug.Log("Invincibility frames!");
-    }
-
     private IEnumerator ProcessImmortality()
     {
         while (_isImmortal)
         {
-            _playerSprite.enabled = false;
-            yield return new WaitForSeconds(.1f);
-            _playerSprite.enabled = true;
-            yield return new WaitForSeconds(.1f);
+            _playerMain.GetSpriteRenderer().enabled = false;
+            yield return new WaitForSeconds(flickeringSpriteFrequency);
+            _playerMain.GetSpriteRenderer().enabled = true;
+            yield return new WaitForSeconds(flickeringSpriteFrequency);
         }
     }
+
+    void ICollisionHandler.OnTriggerEnter(Collider2D collision)
+    {
+        OnTriggerEnter2D(collision);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        IObstacle obstacle = collision.gameObject.GetComponent<IObstacle>();
+
+        if (obstacle == null)
+        {
+            _isImmortal = true;
+            Debug.Log("Invincibility frames");
+        }
+
+        StartCoroutine(ProcessImmortality());
+    }
+}
+
+public interface ICollisionHandler
+{
+    public void OnTriggerEnter(Collider2D collision);
 }

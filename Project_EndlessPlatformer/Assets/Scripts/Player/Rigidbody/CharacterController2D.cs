@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CharacterController2D : MonoBehaviour
+public class CharacterController2D : MonoBehaviour, ICharacterController2D
 {
 	[SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
 	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;          // Amount of maxSpeed applied to crouching movement. 1 = 100%
@@ -12,13 +12,13 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
+	private ICharacterManager _playerMainManager;
+
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
 	const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
-	private PlayerMainManager _playerMainManager;
 
 	[Header("Events")]
 	[Space]
@@ -44,7 +44,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void OnEnable()
     {
-		_playerMainManager = GetComponent<PlayerMainManager>();
+		_playerMainManager = GetComponent<ICharacterManager>();
 		Debug.Log("CharacterController2D - ON!");
 	}
 
@@ -114,11 +114,11 @@ public class CharacterController2D : MonoBehaviour
 			}
 
 			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, _playerMainManager._playerRigidbody.velocity.y);
+			Vector3 targetVelocity = new Vector2(move * 10f, _playerMainManager.GetRigidbody().velocity.y);
 
 			// And then smoothing it out and applying it to the character
 			//m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-			_playerMainManager._playerRigidbody.velocity = Vector3.SmoothDamp(_playerMainManager._playerRigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+			_playerMainManager.GetRigidbody().velocity = Vector3.SmoothDamp(_playerMainManager.GetRigidbody().velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
 			// If the input is moving the player right and the player is facing left...
 			if (move > 0 && !m_FacingRight)
@@ -140,7 +140,7 @@ public class CharacterController2D : MonoBehaviour
 			m_Grounded = false;
 
 			//m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-			_playerMainManager._playerRigidbody.AddForce(new Vector2(0f, m_JumpForce));
+			_playerMainManager.GetRigidbody().AddForce(new Vector2(0f, m_JumpForce));
 		}
 	}
 
@@ -155,4 +155,9 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+}
+
+public interface ICharacterController2D
+{
+
 }

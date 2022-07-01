@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelPartBehaviour : MonoBehaviour
+public class LevelPartBehaviour : MonoBehaviour, IObstacle
 {
 
-#if !UNITY_EDITOR
+    #if !UNITY_EDITOR
 
     private void OnBecameInvisible()
     {
@@ -19,5 +19,10 @@ public class LevelPartBehaviour : MonoBehaviour
         Destroy(gameObject);
     }
 
-#endif
+    #endif
+}
+
+public interface IObstacle
+{
+
 }

@@ -10,7 +10,7 @@ public class SwipeDetection : Singleton<SwipeDetection>
     [SerializeField, Range(0f, 1f)] float directionThreshold = .9f;
     [SerializeField] GameObject swipeTrail;
 
-    private InputManager inputManager;
+    private PlayerInputManager inputManager;
 
     private Vector2 startPosition;
     private float startTime;
@@ -27,7 +27,7 @@ public class SwipeDetection : Singleton<SwipeDetection>
 
     private void Awake()
     {
-        inputManager = InputManager.Instance;
+        inputManager = PlayerInputManager.Instance;
     }
 
     private void OnEnable()
