@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// Be aware, that this class has an execution order. -50
 /// </summary>
-public class PlayerInputManager : Singleton<PlayerInputManager>, IInputManager
+public class PlayerInputManager : Singleton<PlayerInputManager>, IPlayerInput
 {
     private PlayerControls _playerControls;
     private Camera _mainCam;
@@ -18,7 +18,7 @@ public class PlayerInputManager : Singleton<PlayerInputManager>, IInputManager
 
     public delegate void EndTouch(Vector2 position, float time);
     public event EndTouch OnEndTouch;
-
+    
     public delegate void JumpStart();
     public event JumpStart OnJump;
 
@@ -101,7 +101,13 @@ public class PlayerInputManager : Singleton<PlayerInputManager>, IInputManager
     }
 }
 
-public interface IInputManager
+public interface IPlayerInput
 {
+    event PlayerInputManager.StartTouch OnStartTouch;
+    event PlayerInputManager.EndTouch OnEndTouch;
 
+    event PlayerInputManager.JumpStart OnJump;
+    event PlayerInputManager.ProcessCrouch OnCrouch;
+
+    public Vector2 PrimaryPosition();
 }

@@ -16,7 +16,7 @@ public class CharacterController2D : MonoBehaviour, ICharacterController2D
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
-	const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
+	// const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 
@@ -33,7 +33,6 @@ public class CharacterController2D : MonoBehaviour, ICharacterController2D
 
 	private void Awake()
 	{
-		// m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -45,7 +44,6 @@ public class CharacterController2D : MonoBehaviour, ICharacterController2D
     private void OnEnable()
     {
 		_playerMainManager = GetComponent<ICharacterManager>();
-		Debug.Log("CharacterController2D - ON!");
 	}
 
     private void FixedUpdate()
@@ -144,8 +142,7 @@ public class CharacterController2D : MonoBehaviour, ICharacterController2D
 		}
 	}
 
-
-	private void Flip()
+    public void Flip()
 	{
 		// Switch the way the player is labelled as facing.
 		m_FacingRight = !m_FacingRight;
@@ -155,9 +152,4 @@ public class CharacterController2D : MonoBehaviour, ICharacterController2D
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
-}
-
-public interface ICharacterController2D
-{
-
 }

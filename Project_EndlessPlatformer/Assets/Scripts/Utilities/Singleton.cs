@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : Component
@@ -11,18 +12,24 @@ public class Singleton<T> : MonoBehaviour where T : Component
             if(_instance == null)
             {
                 var objs = FindObjectsOfType(typeof(T)) as T[];
+
                 if(objs.Length > 0)
                 {
                     _instance = objs[0];
                 }
+
                 if(objs.Length < 0)
                 {
                     Debug.LogError("There is more than one " + typeof(T).Name + " in the scene");
                 }
+
                 if(_instance == null)
                 {
-                    GameObject obj = new GameObject();
-                    obj.hideFlags = HideFlags.HideAndDontSave;
+                    GameObject obj = new GameObject
+                    {
+                        hideFlags = HideFlags.HideAndDontSave
+                    };
+
                     _instance = obj.AddComponent<T>();
                 }
             }

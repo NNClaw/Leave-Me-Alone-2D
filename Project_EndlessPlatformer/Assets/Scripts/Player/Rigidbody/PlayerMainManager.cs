@@ -5,61 +5,42 @@ using UnityEngine;
 /// </summary>
 public class PlayerMainManager : MonoBehaviour, ICharacterManager
 {
-    internal Rigidbody2D _playerRigidbody;
-    internal Animator _playerAnimator;
-    internal SpriteRenderer _playerSprite;
+    internal Rigidbody2D c_playerRigidbody;
+    internal Animator c_playerAnimator;
+    internal SpriteRenderer c_playerSprite;
 
-    internal ICharacterController2D _playerController;
-    internal ICharacterMovement _playerMovement;
-    internal ICollisionHandler _playerCollision;
-    internal IAnimationHandler _playerAnimation;
-    internal IInputManager _inputManager;
+    internal ICharacterController2D i_playerController;
+    internal ICharacterMovement i_playerMovement;
+    internal ICharacterAnimation i_playerAnimation;
 
     private void Awake()
     {
-        _playerRigidbody = GetComponent<Rigidbody2D>();
-        _playerAnimator = GetComponentInChildren<Animator>();
-        _playerSprite = GetComponentInChildren<SpriteRenderer>();
+        c_playerRigidbody = GetComponent<Rigidbody2D>();
+        c_playerAnimator = GetComponentInChildren<Animator>();
+        c_playerSprite = GetComponentInChildren<SpriteRenderer>();
 
-        _playerController = GetComponent<ICharacterController2D>();
-        _playerMovement = GetComponent<ICharacterMovement>();
-        _playerCollision = GetComponent<ICollisionHandler>();
-        _playerAnimation = GetComponentInChildren<IAnimationHandler>();
-        _inputManager = PlayerInputManager.Instance;
-        Debug.Log("PlayerMainManager - ON!");
+        i_playerController = GetComponent<ICharacterController2D>();
+        i_playerMovement = GetComponent<ICharacterMovement>();
+        i_playerAnimation = GetComponent<ICharacterAnimation>();
     }
 
     public Rigidbody2D GetRigidbody()
     {
-        return _playerRigidbody;
+        return c_playerRigidbody;
     }
 
     public SpriteRenderer GetSpriteRenderer()
     {
-        return _playerSprite;
+        return c_playerSprite;
     }
 
     public Animator GetAnimator()
     {
-        return _playerAnimator;
+        return c_playerAnimator;
     }
 
     public CharacterController2D GetCharacterController2D()
     {
-        return (CharacterController2D)_playerController;
+        return (CharacterController2D)i_playerController;
     }
-
-    public PlayerInputManager GetInputManager()
-    {
-        return (PlayerInputManager)_inputManager;
-    }
-}
-
-public interface ICharacterManager
-{
-    public Rigidbody2D GetRigidbody();
-    public SpriteRenderer GetSpriteRenderer();
-    public Animator GetAnimator();
-    public CharacterController2D GetCharacterController2D();
-    public PlayerInputManager GetInputManager();
 }

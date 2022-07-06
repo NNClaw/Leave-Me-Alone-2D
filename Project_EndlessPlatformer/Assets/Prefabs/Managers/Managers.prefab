@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6365787378766339951}
-  - component: {fileID: 6365787378766339945}
   - component: {fileID: 6365787378766339944}
+  - component: {fileID: 2865034050082695621}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -32,18 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6365787378766339945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6365787378766339950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9982b5e25870c0a438bef93e0b953a73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6365787378766339944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,4 +47,16 @@ MonoBehaviour:
   minimumDistance: 0.45
   maximumTime: 1
   directionThreshold: 0.9
-  swipeTrail: {fileID: 3894889400311250676, guid: c317776177774cf47afb2c3cad90e62d, type: 3}
+  swipeTrail: {fileID: 0}
+--- !u!114 &2865034050082695621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6365787378766339950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9982b5e25870c0a438bef93e0b953a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

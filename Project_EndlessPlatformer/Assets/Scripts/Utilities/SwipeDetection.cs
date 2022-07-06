@@ -3,21 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwipeDetection : Singleton<SwipeDetection>
+public class SwipeDetection : Singleton<SwipeDetection>, ISwipeDetection
 {
     [SerializeField] float minimumDistance = .2f;
     [SerializeField] float maximumTime = 1f;
     [SerializeField, Range(0f, 1f)] float directionThreshold = .9f;
     [SerializeField] GameObject swipeTrail;
 
-    private PlayerInputManager inputManager;
+    private IPlayerInput inputManager;
 
     private Vector2 startPosition;
     private float startTime;
     private Vector2 endPosition;
     private float endTime;
+    private bool _gameplayTrigger;
 
     private Coroutine swipeCoroutine;
+
+    #region Events
 
     public delegate void SwipeDirectionUp();
     public event SwipeDirectionUp DirectionUp;
@@ -25,9 +28,13 @@ public class SwipeDetection : Singleton<SwipeDetection>
     public delegate void SwipeDirectionDown(bool isCrouching);
     public event SwipeDirectionDown DirectionDown;
 
+    #endregion
+
     private void Awake()
     {
         inputManager = PlayerInputManager.Instance;
+
+        _gameplayTrigger = true;
     }
 
     private void OnEnable()
@@ -42,7 +49,7 @@ public class SwipeDetection : Singleton<SwipeDetection>
         inputManager.OnEndTouch -= SwipeEnd;
     }
 
-    private void SwipeStart(Vector2 position, float time)
+    public void SwipeStart(Vector2 position, float time)
     {
         startPosition = position;
         startTime = time;
@@ -53,14 +60,14 @@ public class SwipeDetection : Singleton<SwipeDetection>
 
     private IEnumerator Trail()
     {
-        while (true)
+        while (_gameplayTrigger)
         {
             swipeTrail.transform.position = inputManager.PrimaryPosition();
             yield return null;
         }
     }
 
-    private void SwipeEnd(Vector2 position, float time)
+    public void SwipeEnd(Vector2 position, float time)
     {
         swipeTrail.SetActive(false);
         StopCoroutine(swipeCoroutine);
@@ -69,7 +76,7 @@ public class SwipeDetection : Singleton<SwipeDetection>
         DetectSwipe();
     }
 
-    private void DetectSwipe()
+    public void DetectSwipe()
     {
         if(Vector2.Distance(startPosition, endPosition) >= minimumDistance && 
             (endTime - startTime) <= maximumTime) {
@@ -80,7 +87,7 @@ public class SwipeDetection : Singleton<SwipeDetection>
         }
     }
 
-    private void SwipeDirection(Vector2 direction)
+    public void SwipeDirection(Vector2 direction)
     {
         if(Vector2.Dot(Vector2.up, direction) > directionThreshold)
         {

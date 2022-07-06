@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimationHandler : MonoBehaviour, IAnimationHandler
+public class PlayerAnimationHandler : MonoBehaviour, ICharacterAnimation
 {
     private ICharacterManager _playerMain;
 
@@ -15,7 +15,6 @@ public class PlayerAnimationHandler : MonoBehaviour, IAnimationHandler
         _runningVelocityHash = Animator.StringToHash("Velocity");
         _isJumpingHash = Animator.StringToHash("IsJumping");
         _isRunningHash = Animator.StringToHash("IsRunning");
-        Debug.Log("PlayerAnimationHandler - ON!");
     }
 
     public void SetAnimationFloat(int hashID, float animationFloat)
@@ -42,13 +41,4 @@ public class PlayerAnimationHandler : MonoBehaviour, IAnimationHandler
     {
         return _runningVelocityHash;
     }
-}
-
-public interface IAnimationHandler
-{
-    public int GetJumpingHash();
-    public int GetRunningHash();
-    public int GetRunningVelocityHash();
-    public void SetAnimationBool(int hashID, bool animationCondition);
-    public void SetAnimationFloat(int hashID, float animationFloat);
 }
