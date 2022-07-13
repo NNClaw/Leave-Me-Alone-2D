@@ -11,6 +11,9 @@ public class PlayerInputManager : Singleton<PlayerInputManager>, IPlayerInput
     private PlayerControls _playerControls;
     private Camera _mainCam;
 
+    private Vector2 v_currentMovementInput, v_currentMovement;
+    private bool b_isCurrentMovementPressed;
+
     #region Events
 
     public delegate void StartTouch(Vector2 position, float time);
@@ -24,6 +27,9 @@ public class PlayerInputManager : Singleton<PlayerInputManager>, IPlayerInput
 
     public delegate void ProcessCrouch(bool isCrouching);
     public event ProcessCrouch OnCrouch;
+
+    public delegate void ProcessMovement(Vector2 currentMovement, bool isRunning);
+    public event ProcessMovement OnMove;
 
     #endregion
 
@@ -50,6 +56,8 @@ public class PlayerInputManager : Singleton<PlayerInputManager>, IPlayerInput
         _playerControls.Player.Jump.performed += Jump;
         _playerControls.Player.Crouch.performed += Crouch;
         _playerControls.Player.Crouch.canceled += Crouch;
+        _playerControls.Player.MovePlayer.started += MovePlayer;
+        _playerControls.Player.MovePlayer.canceled += MovePlayer;
     }
 
     private void Crouch(InputAction.CallbackContext context)
@@ -70,6 +78,16 @@ public class PlayerInputManager : Singleton<PlayerInputManager>, IPlayerInput
         {
             OnJump?.Invoke();
         }
+    }
+
+    private void MovePlayer(InputAction.CallbackContext context)
+    {
+        v_currentMovementInput = context.ReadValue<Vector2>();
+        v_currentMovement.x = v_currentMovementInput.x;
+
+        b_isCurrentMovementPressed = v_currentMovementInput.x != 0;
+
+        OnMove?.Invoke(v_currentMovement, b_isCurrentMovementPressed);
     }
 
     private void StartTouchPrimary(InputAction.CallbackContext context)
@@ -108,6 +126,7 @@ public interface IPlayerInput
 
     event PlayerInputManager.JumpStart OnJump;
     event PlayerInputManager.ProcessCrouch OnCrouch;
+    event PlayerInputManager.ProcessMovement OnMove;
 
     public Vector2 PrimaryPosition();
 }

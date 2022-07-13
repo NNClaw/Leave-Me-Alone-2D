@@ -123,6 +123,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &358677460 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1786239483207085886, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
+  m_PrefabInstance: {fileID: 3956654455364480801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &358677461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358677460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3da8be7e09832b47b6a789809f12132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 35
 --- !u!1 &931210302 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3894889400311250676, guid: c317776177774cf47afb2c3cad90e62d, type: 3}
@@ -138,7 +156,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8022875741435707412, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
   m_PrefabInstance: {fileID: 3956654455364480801}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 358677460}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea10db9e4f5572848b7f78d88dea8968, type: 3}
@@ -252,11 +270,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1786239483207085885, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
+      propertyPath: OnLandEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 358677461}
+    - target: {fileID: 1786239483207085885, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
+      propertyPath: OnLandEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CharacterLand
+      objectReference: {fileID: 0}
+    - target: {fileID: 1786239483207085885, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
+      propertyPath: OnLandEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerMovementTester, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1786239483207085886, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
       propertyPath: m_Name
       value: Player (Rigidbody 2D)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1786239483207085880, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 15c33c31ed476044e8e7911245752cc4, type: 3}
 --- !u!1001 &4415732712435562495
 PrefabInstance:
