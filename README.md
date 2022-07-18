@@ -19,6 +19,7 @@ As this is a game for mobile platforms, the main input is user's touch screen. K
 ***Features in development or planed to be developed***
 
 * Enemy feature;
+* Player's ability to shove obstacles and implementing those obstacles
 * UI;
 * Gameplay bonuses;
 * Visual redevelopment (current assets are maily used for testing).
