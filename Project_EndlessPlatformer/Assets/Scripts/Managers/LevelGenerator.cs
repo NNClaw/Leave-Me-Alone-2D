@@ -1,27 +1,44 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class LevelGenerator : MonoBehaviour
 {
     private const float PLAYER_DISTANCE_SPAWN_LEVEL_PART = 40f;
+    private const int ENDPOINT_TRANSFORM_ID = 1;
 
-    [SerializeField] private List<Transform> levelParts;
+    [SerializeField] private List<LevelPartBehaviour> levelParts;
     [SerializeField] private Transform levelPart_Start;
     [SerializeField] private PlayerMainManager player;
 
     private Vector3 lastEndPosition;
+    private IObjectPool<LevelPartBehaviour> objectPool;
+
+    public static float PlayerDistanceToLevelPart { get { return PLAYER_DISTANCE_SPAWN_LEVEL_PART; } }
+    public PlayerMainManager Player { get { return player; } }
 
     private void Awake()
     {
-        lastEndPosition = levelPart_Start.Find("End Point").position;
+        objectPool = new ObjectPool<LevelPartBehaviour>(CreateLevelPart, OnLevelPartGet, OnLevelPartRelease);
 
-        int preloadLevelPartCount = 5;
+        lastEndPosition = levelPart_Start.GetChild(ENDPOINT_TRANSFORM_ID).position;
+
+        int preloadLevelPartCount = 2;
 
         for (int i = 0; i < preloadLevelPartCount; i++)
         {
             SpawnLevelPart();
         }
+    }
+
+    private void OnLevelPartRelease(LevelPartBehaviour levelPart)
+    {
+        levelPart.gameObject.SetActive(false);
+    }
+
+    private void OnLevelPartGet(LevelPartBehaviour levelPart)
+    {
+        levelPart.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
@@ -33,17 +50,21 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    private void SpawnLevelPart()
+    // Fix randomness
+    private LevelPartBehaviour CreateLevelPart()
     {
-        Transform randomLevelPart = levelParts[Random.Range(0, levelParts.Count)];
-        Transform lastLevelPartTransform = SpawnLevelPart(randomLevelPart, lastEndPosition);
-        lastEndPosition = lastLevelPartTransform.Find("End Point").position;
-        
+        // This Random class is in UnityEngine namespace and not in System
+        var randomLevelPart = levelParts[Random.Range(0, levelParts.Count)];
+        var levelPart = Instantiate(randomLevelPart);
+        levelPart.SetPool(objectPool);
+
+        return levelPart;
     }
 
-    private Transform SpawnLevelPart(Transform levelPart, Vector3 position)
+    private void SpawnLevelPart()
     {
-        Transform levelPartTransform = Instantiate(levelPart, position, Quaternion.identity, transform);
-        return levelPartTransform;
+        var levelPart = objectPool.Get();
+        levelPart.transform.position = lastEndPosition;
+        lastEndPosition = levelPart.transform.GetChild(ENDPOINT_TRANSFORM_ID).position;
     }
 }

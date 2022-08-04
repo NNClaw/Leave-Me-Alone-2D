@@ -72,7 +72,8 @@ public class PlayerMovementTester : MonoBehaviour, ICharacterMovement
     public void CharacterJump()
     {
         // Manipulating jumping boolean to start the jump
-        _isJumping = true;
+        if(!_isJumping)
+            _isJumping = true;
 
         // Setting up an animation for jump
         _playerMainAnimation.SetAnimationBool(_playerMainAnimation.GetJumpingHash(), _isJumping);
@@ -80,10 +81,11 @@ public class PlayerMovementTester : MonoBehaviour, ICharacterMovement
 
     public void CharacterLand()
     {
+        // Manipulating jumping boolean to end the jump
+        if(_isJumping)
+            _isJumping = false;
+
         // Setting up an animation for falling
         _playerMainAnimation.SetAnimationBool(_playerMainAnimation.GetJumpingHash(), _isJumping);
-
-        // Manipulating jumping boolean to end the jump
-        _isJumping = false;
     }
 }

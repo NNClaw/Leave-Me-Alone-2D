@@ -141,6 +141,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 35
+--- !u!1 &464656287 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4415732712015466265, guid: 338ecd9a615320844a315c0d533a8ab9, type: 3}
+  m_PrefabInstance: {fileID: 4415732712435562495}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &931210302 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3894889400311250676, guid: c317776177774cf47afb2c3cad90e62d, type: 3}
@@ -357,6 +362,26 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1988240742}
+    - target: {fileID: 4856973679725082826, guid: 1ab9b0798655ac445bd09ddb0201c145, type: 3}
+      propertyPath: testing
+      value: 
+      objectReference: {fileID: 464656287}
+    - target: {fileID: 4856973679725082826, guid: 1ab9b0798655ac445bd09ddb0201c145, type: 3}
+      propertyPath: levelPartPrefab
+      value: 
+      objectReference: {fileID: 7658781490861423762, guid: 64595d2c8273e5b4ca3d8233538f8b58, type: 3}
+    - target: {fileID: 4856973679725082826, guid: 1ab9b0798655ac445bd09ddb0201c145, type: 3}
+      propertyPath: levelParts.Array.data[0]
+      value: 
+      objectReference: {fileID: 7658781490861423762, guid: 64595d2c8273e5b4ca3d8233538f8b58, type: 3}
+    - target: {fileID: 4856973679725082826, guid: 1ab9b0798655ac445bd09ddb0201c145, type: 3}
+      propertyPath: levelParts.Array.data[1]
+      value: 
+      objectReference: {fileID: 2118096434113115234, guid: 7e6703fb78b2e8b408c1273e1e232cfa, type: 3}
+    - target: {fileID: 4856973679725082826, guid: 1ab9b0798655ac445bd09ddb0201c145, type: 3}
+      propertyPath: levelParts.Array.data[2]
+      value: 
+      objectReference: {fileID: 6132086710447098555, guid: 5989270f8c3dc3940a8f5ffe3e7aa950, type: 3}
     - target: {fileID: 4856973679725082827, guid: 1ab9b0798655ac445bd09ddb0201c145, type: 3}
       propertyPath: m_RootOrder
       value: 4

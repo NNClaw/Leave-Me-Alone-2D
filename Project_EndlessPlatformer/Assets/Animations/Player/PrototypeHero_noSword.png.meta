@@ -309,6 +309,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -889,6 +890,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      PrototypeHero_noSword_9: 21300018
+      PrototypeHero_noSword_1: 21300002
+      PrototypeHero_noSword_3: 21300006
+      PrototypeHero_noSword_11: 21300022
+      PrototypeHero_noSword_0: 21300000
+      PrototypeHero_noSword_15: 21300030
+      PrototypeHero_noSword_5: 21300010
+      PrototypeHero_noSword_7: 21300014
+      PrototypeHero_noSword_13: 21300026
+      PrototypeHero_noSword_8: 21300016
+      PrototypeHero_noSword_2: 21300004
+      PrototypeHero_noSword_23: 21300046
+      PrototypeHero_noSword_6: 21300012
+      PrototypeHero_noSword_20: 21300040
+      PrototypeHero_noSword_21: 21300042
+      PrototypeHero_noSword_4: 21300008
+      PrototypeHero_noSword_16: 21300032
+      PrototypeHero_noSword_18: 21300036
+      PrototypeHero_noSword_14: 21300028
+      PrototypeHero_noSword_12: 21300024
+      PrototypeHero_noSword_10: 21300020
+      PrototypeHero_noSword_22: 21300044
+      PrototypeHero_noSword_19: 21300038
+      PrototypeHero_noSword_17: 21300034
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
