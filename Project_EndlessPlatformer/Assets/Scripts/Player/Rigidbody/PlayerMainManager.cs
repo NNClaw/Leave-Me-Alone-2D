@@ -3,7 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Be aware, that this class has an execution order. -20
 /// </summary>
-public class PlayerMainManager : MonoBehaviour, ICharacterManager
+public class PlayerMainManager : Singleton<PlayerMainManager>, ICharacterManager
 {
     internal Rigidbody2D c_playerRigidbody;
     internal Animator c_playerAnimator;
@@ -22,6 +22,11 @@ public class PlayerMainManager : MonoBehaviour, ICharacterManager
         i_playerController = GetComponent<ICharacterController2D>();
         i_playerMovement = GetComponent<ICharacterMovement>();
         i_playerAnimation = GetComponent<ICharacterAnimation>();
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 
     public Rigidbody2D GetRigidbody()

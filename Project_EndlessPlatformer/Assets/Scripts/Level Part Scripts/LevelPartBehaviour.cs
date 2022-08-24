@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class LevelPartBehaviour : MonoBehaviour, IObstacle
 {
-    private IObjectPool<LevelPartBehaviour> _pool;
+    private IObjectPool<IPoolableObject> _pool;
     private LevelGenerator levelGenerator;
 
     private void Awake()
@@ -13,7 +11,10 @@ public class LevelPartBehaviour : MonoBehaviour, IObstacle
         levelGenerator = FindObjectOfType<LevelGenerator>();
     }
 
-    public void SetPool(IObjectPool<LevelPartBehaviour> pool) => _pool = pool;
+    public void SetPool(IObjectPool<IPoolableObject> pool)
+    {
+        _pool = pool;
+    }
 
     private void Update()
     {
@@ -22,7 +23,7 @@ public class LevelPartBehaviour : MonoBehaviour, IObstacle
 
     private void ReturnToPool()
     {
-        if(Vector3.Distance(levelGenerator.Player.transform.position, gameObject.transform.position) > LevelGenerator.PlayerDistanceToLevelPart)
+        if (Vector3.Distance(levelGenerator.Player.transform.position, transform.position) > levelGenerator.PlayerDistanceToLevelPart)
         {
             if (_pool != null)
             {
@@ -30,9 +31,19 @@ public class LevelPartBehaviour : MonoBehaviour, IObstacle
             }
         }
     }
+
+    public GameObject GetGameObjectInstance()
+    {
+        return gameObject;
+    }
 }
 
-public interface IObstacle
+public interface IObstacle : IPoolableObject
 {
+    
+}
 
+public interface IPoolableObject
+{
+    public GameObject GetGameObjectInstance();
 }

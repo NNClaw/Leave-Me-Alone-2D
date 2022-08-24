@@ -2,69 +2,78 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class LevelGenerator : MonoBehaviour
+public class LevelGenerator : MonoBehaviour, ILevelGenerator
 {
-    private const float PLAYER_DISTANCE_SPAWN_LEVEL_PART = 40f;
+    // Constant values
+    private const float PLAYER_DISTANCE_TO_LAST_LEVEL_PART = 40f;
     private const int ENDPOINT_TRANSFORM_ID = 1;
+    private const int PART_PRELOAD_COUNT = 2;
 
+    // Values for visibility in the inspector
     [SerializeField] private List<LevelPartBehaviour> levelParts;
     [SerializeField] private Transform levelPart_Start;
-    [SerializeField] private PlayerMainManager player;
+    
 
+    // Values for internal work
     private Vector3 lastEndPosition;
-    private IObjectPool<LevelPartBehaviour> objectPool;
+    private List<IObjectPool<IPoolableObject>> objectPools;
+    private ICharacterManager player;
+    private ObjectPooler objectPooler;
 
-    public static float PlayerDistanceToLevelPart { get { return PLAYER_DISTANCE_SPAWN_LEVEL_PART; } }
-    public PlayerMainManager Player { get { return player; } }
+    // Properties
+    public float PlayerDistanceToLevelPart { get { return PLAYER_DISTANCE_TO_LAST_LEVEL_PART; } }
+    public PlayerMainManager Player { get { return (PlayerMainManager) player; } }
 
     private void Awake()
     {
-        objectPool = new ObjectPool<LevelPartBehaviour>(CreateLevelPart, OnLevelPartGet, OnLevelPartRelease);
+        objectPooler = GetComponent<ObjectPooler>();
+        player = PlayerMainManager.Instance;
+
+        objectPools = objectPooler.CreateListOfObjectPools(objectPools, levelParts);
 
         lastEndPosition = levelPart_Start.GetChild(ENDPOINT_TRANSFORM_ID).position;
 
-        int preloadLevelPartCount = 2;
-
-        for (int i = 0; i < preloadLevelPartCount; i++)
+        for (int i = 0; i < PART_PRELOAD_COUNT; i++)
         {
             SpawnLevelPart();
         }
     }
 
-    private void OnLevelPartRelease(LevelPartBehaviour levelPart)
+    public List<LevelPartBehaviour> GetGameObjects()
     {
-        levelPart.gameObject.SetActive(false);
-    }
-
-    private void OnLevelPartGet(LevelPartBehaviour levelPart)
-    {
-        levelPart.gameObject.SetActive(true);
+        if (levelParts != null)
+            return levelParts;
+        else
+            throw new System.NullReferenceException("The list, which is currently returned, doesn't have any items in it");
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Vector3.Distance(player.gameObject.transform.position, lastEndPosition) < PLAYER_DISTANCE_SPAWN_LEVEL_PART)
+        if (Vector3.Distance(player.GetGameObject().transform.position, lastEndPosition) < PLAYER_DISTANCE_TO_LAST_LEVEL_PART)
         {
             SpawnLevelPart();
         }
     }
 
-    // Fix randomness
-    private LevelPartBehaviour CreateLevelPart()
-    {
-        // This Random class is in UnityEngine namespace and not in System
-        var randomLevelPart = levelParts[Random.Range(0, levelParts.Count)];
-        var levelPart = Instantiate(randomLevelPart);
-        levelPart.SetPool(objectPool);
-
-        return levelPart;
-    }
-
     private void SpawnLevelPart()
     {
-        var levelPart = objectPool.Get();
-        levelPart.transform.position = lastEndPosition;
-        lastEndPosition = levelPart.transform.GetChild(ENDPOINT_TRANSFORM_ID).position;
+        // Get a random object pool from object pool list
+        var randomObjectPool = objectPools[Random.Range(0, objectPools.Count)];
+        var levelPart = randomObjectPool.Get();
+
+        GetLastPositionOfLevelPart(levelPart);
     }
+
+    private void GetLastPositionOfLevelPart(IPoolableObject levelPart)
+    {
+        // Get the endpoint position of the last levelpart and assign it
+        levelPart.GetGameObjectInstance().transform.position = lastEndPosition;
+        lastEndPosition = levelPart.GetGameObjectInstance().transform.GetChild(ENDPOINT_TRANSFORM_ID).position;
+    }
+}
+
+internal interface ILevelGenerator
+{
+    public List<LevelPartBehaviour> GetGameObjects();
 }

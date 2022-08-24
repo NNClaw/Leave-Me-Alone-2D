@@ -7,6 +7,7 @@ public class ImmortalityTrigger : MonoBehaviour, IImmortality
     [SerializeField] float flickeringSpriteFrequency = .1f;
 
     private ICharacterManager _playerMain;
+    private SpriteRenderer spriteRenderer;
 
     private bool _isImmortal = false;
     private float _immortalTimer;
@@ -18,15 +19,16 @@ public class ImmortalityTrigger : MonoBehaviour, IImmortality
     private void OnEnable()
     {
         _playerMain = GetComponent<ICharacterManager>();
+        spriteRenderer = _playerMain.GetSpriteRenderer();
     }
 
     public IEnumerator ProcessImmortality()
     {
         while (_isImmortal && _playerMain != null)
         {
-            _playerMain.GetSpriteRenderer().enabled = false;
+            spriteRenderer.color = Color.clear;
             yield return new WaitForSeconds(flickeringSpriteFrequency);
-            _playerMain.GetSpriteRenderer().enabled = true;
+            spriteRenderer.color = Color.white;
             yield return new WaitForSeconds(flickeringSpriteFrequency);
         }
     }
