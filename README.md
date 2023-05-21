@@ -2,7 +2,7 @@
  
 This is my take on endless runner for mobile platforms (iOS and Android). Endless runner genre suggests, that the main goal is to run as far as possible, where the gameplay goes faster after a set period of time. My idea expands this main goal by eliminating life system and implementing an enemy, which will be closer each time the player hits an obstacle (kind of like in Subway Surfers).
 
-This project is in active development, where it is in a state of further core gameplay development.
+This project is in occasional development, whenever I have time and desire to work on it. Currently, it is in a state of further core gameplay development.
 
 ***Controls***
 
